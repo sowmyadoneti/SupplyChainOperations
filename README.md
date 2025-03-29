@@ -1,6 +1,6 @@
 # 📊 Full-Stack CRM Management System
 
-A full-stack CRM (Customer Relationship Management) system built with **Spring Boot**, **React**, and **MYSQL**, featuring secure JWT authentication, role-based access control, real-time WebSocket alerts, and responsive UI.
+A full-stack CRM (Customer Relationship Management) system built with **Spring Boot**, **React**, and **MySQL**, featuring secure JWT authentication, role-based access control, real-time WebSocket alerts, and a responsive UI.
 
 ---
 
@@ -31,14 +31,14 @@ A full-stack CRM (Customer Relationship Management) system built with **Spring B
 
 ## 🧰 Tech Stack
 
-| Layer       | Tech Used                          |
-|-------------|------------------------------------|
-| **Frontend**    | React, Axios, React Router DOM     |
-| **Backend**     | Spring Boot, Spring Security, JWT  |
-| **Database**    | PostgreSQL                         |
-| **Real-time**   | WebSocket (`spring-websocket`)     |
-| **Styling**     | CSS, Background image              |
-| **Auth**        | JWT, BCrypt Password Encoding      |
+| Layer         | Tech Used                          |
+|---------------|------------------------------------|
+| **Frontend**  | React, Axios, React Router DOM     |
+| **Backend**   | Spring Boot, Spring Security, JWT  |
+| **Database**  | MySQL                              |
+| **Real-time** | WebSocket (`spring-websocket`)     |
+| **Styling**   | CSS, Custom background             |
+| **Auth**      | JWT, BCrypt                        |
 
 ---
 
@@ -62,8 +62,59 @@ A full-stack CRM (Customer Relationship Management) system built with **Spring B
 - Triggered when stock quantity < threshold
 
 ---
+
+## 🛠️ Setup Instructions
+
+---
+
+### 🔧 Backend (Spring Boot)
+
+1. Clone this repo  
+2. Navigate to the `crm-backend` folder  
+3. Set up `application.properties`:
+
+```properties
+# MySQL Configuration
+spring.datasource.url=jdbc:mysql://localhost:3306/crm_db?useSSL=false&serverTimezone=UTC
+spring.datasource.username=your_user
+spring.datasource.password=your_password
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+# Hibernate
+spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+
+# JWT
+jwt.secret=your_secret_key
+jwt.expirationMs=86400000
+```
+
+---
+
+### ▶️ Run the Server
+
+```bash
+./mvnw spring-boot:run
+```
+
+---
+
+### 💻 Frontend (React)
+
+1. Navigate to the `crm-frontend` folder  
+2. Run:
+
+```bash
+npm install
+npm start
+```
+
+---
+
 ### 📁 Project Structure
 
+```bash
 crm-backend/
 ├── controller/
 ├── service/
@@ -76,3 +127,7 @@ crm-frontend/
 ├── components/
 ├── hooks/
 └── utils/
+```
+
+---
+
