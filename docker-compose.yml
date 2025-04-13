@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  # MySQL Service
+  crm_db:
+    image: mysql:8
+    container_name: crm_db
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: crm_db
+    ports:
+      - "3307:3306"  # Expose port 3306 (MySQL) to 3307 on host
+    networks:
+      - supplychain-network
+    restart: always  # Automatically restart the container if it fails or is stopped unexpectedly
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      retries: 3
+      start_period: 10s
+      timeout: 5s
+
+  # Backend Service (Spring Boot)
+  backend:
+    image: crm-backend  # Make sure to build the backend image first
+    container_name: backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://crm_db:3306/crm_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: admin
+    ports:
+      - "8080:8080"  # Expose port 8080 for backend
+    depends_on:
+      crm_db: 
+        condition: service_healthy  # Wait until MySQL is healthy
+    networks:
+      - supplychain-network
+    restart: always  # Automatically restart the container if it fails or is stopped unexpectedly
+
+  # Frontend Service (React App)
+  frontend:
+    image: crm-frontend  # Make sure to build the frontend image first
+    container_name: crm_frontend_container
+    ports:
+      - "3000:80"  # Expose React app to port 3000
+    networks:
+      - supplychain-network
+    restart: always  # Automatically restart the container if it fails or is stopped unexpectedly
+
+networks:
+  supplychain-network:
+    driver: bridge
